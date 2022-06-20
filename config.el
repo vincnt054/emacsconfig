@@ -47,7 +47,7 @@
 
 ;; Trailing whitespace deleted on save
 (add-hook 'before-save-hook
-	  'delete-trailing-whitespace)
+		  'delete-trailing-whitespace)
 
 ;; UTF-8
 (set-language-environment "UTF-8")
@@ -77,14 +77,14 @@
 
 ;; Paren-mode
 (setq show-paren-delay 0
-		show-paren-style 'parenthesis)
+	  show-paren-style 'parenthesis)
 (show-paren-mode 1)
 
 ;; Bracket pair-matching
 (setq electric-pair-pairs '((?\{ . ?\})
-							  (?\( . ?\))
-							  (?\[ . ?\])
-							  (?\" . ?\")))
+							(?\( . ?\))
+							(?\[ . ?\])
+							(?\" . ?\")))
 (electric-pair-mode t)
 
 ;; Indentation
@@ -101,7 +101,7 @@
 
 (global-subword-mode 1)
 (add-hook 'c-mode-common-hook
-	  (lambda () (subword-mode 1)))
+		  (lambda () (subword-mode 1)))
 
 ;; Font
 (add-to-list 'default-frame-alist '(font . "Monospace-10"))
@@ -114,8 +114,8 @@
 
 ;; Show trailing whitespace
 (add-hook 'prog-mode-hook
-			(lambda ()
-			  (setq show-trailing-whitespace t)))
+		  (lambda ()
+			(setq show-trailing-whitespace t)))
 
 ;; Unique buffer and Window title
 (setq-default frame-title-format '("%b"))
@@ -135,7 +135,7 @@
 ;; GUI disabled
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode 1)
+(scroll-bar-mode -1)
 
 ;; Fringe
 (fringe-mode nil) ;; Default fringe-mode.
@@ -168,63 +168,62 @@
 
 ;; dired
 (use-package dired
-	     :straight (:type built-in)
-	     :commands (dired dired-jump)
-	     :bind ("C-x C-j" . dired-jump)
-	     :custom ((dired-listing-switches "-agho --group-directories-first")))
+  :straight (:type built-in)
+  :commands (dired dired-jump)
+  :bind ("C-x C-j" . dired-jump)
+  :custom ((dired-listing-switches "-agho --group-directories-first")))
 
 (use-package dired-open
-	     :commands (dired dired-jump)
-	     :config
-	     (setq dired-open-extensions '(("png" . "sxiv")
-					   ("jpg" . "sxiv")
-					   ("pdf" . "zathura")
-					   ("djvu" . "zathura"))))
+  :commands (dired dired-jump)
+  :config
+  (setq dired-open-extensions '(("png" . "sxiv")
+								("jpg" . "sxiv")
+								("pdf" . "zathura")
+								("djvu" . "zathura"))))
 
 ;; org
 (use-package org
-	     :straight t
-	     :config
-	     (setq initial-major-mode 'org-mode
-		   org-display-inline-images t
-		   org-redisplay-inline-images t
-		   org-image-actual-width nil
-		   org-startup-with-inline-images "inlineimages"
-		   org-catch-invisible-edits 'smart
-		   org-pretty-entities t)
+  :straight t
+  :config
+  (setq initial-major-mode 'org-mode
+		org-display-inline-images t
+		org-redisplay-inline-images t
+		org-image-actual-width nil
+		org-startup-with-inline-images "inlineimages"
+		org-catch-invisible-edits 'smart
+		org-pretty-entities t)
 
-	     (setq org-src-preserve-indentation nil
-		   org-adapt-indentation nil)
+  (setq org-src-preserve-indentation nil
+		org-adapt-indentation nil)
 
-	     (when (file-directory-p "~/org")
-	       (setq org-directory "~/org"
-		     org-agenda-files (list "~/org/personal.org"
-					    "~/org/school.org"
-					    "~/org/work.org"))
-	       	(setq org-todo-keywords
+  (when (file-directory-p "~/org")
+	(setq org-directory "~/org"
+		  org-agenda-files (list "~/org/personal.org"
+								 "~/org/school.org"
+								 "~/org/work.org"))
+	(setq org-todo-keywords
 		  '((sequence "TODO"
-			      "WOP"
-			      "DONE"
-			      "DEFERRED"
-			      "CANCELLED")))
+					  "WOP"
+					  "DONE"
+					  "DEFERRED"
+					  "CANCELLED")))))
 
-		(when (file-directory-p "~/org/roam")
-		  (use-package org-roam
-			       :straight t
-			       :after org
-			       :init
-			       (setq org-roam-v2-ack t)
-			       :custom
-			       (org-roam-directory "~/org/roam")
-			       (org-roam-db-location "~/org/roam/org-roam.db")
-			       (org-id-link-to-org-use-id 'create-if-interactive)
-			       :bind (("C-c n l" . org-roam-buffer-toggle)
-				      ("C-c n f" . org-roam-node-find)
-				      ("C-c n i" . org-roam-node-insert)
-				      :map org-mode-map
-				      ("C-M-i"    . completion-at-point))
-			       :config
-			       (org-roam-setup)))))
+(use-package org-roam
+  :straight t
+  :after org
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/org/roam")
+  (org-roam-db-location "~/org/roam/org-roam.db")
+  (org-id-link-to-org-use-id 'create-if-interactive)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+		 ("C-c n f" . org-roam-node-find)
+		 ("C-c n i" . org-roam-node-insert)
+		 :map org-mode-map
+		 ("C-M-i"    . completion-at-point))
+  :config
+  (org-roam-setup))
 
 (add-to-list 'org-file-apps '("\.pdf" . "zathura %s"))
 
@@ -233,21 +232,21 @@
 
 ;; Async
 (use-package async
-	    :straight t
-	    :demand t
-	    :init
-	    (dired-async-mode 1)
-	    :config
-	    (async-bytecomp-package-mode 1)
-	    (add-to-list 'display-buffer-alist '("*Async Shell Command*" display-buffer-no-window (nil))))
+  :straight t
+  :demand t
+  :init
+  (dired-async-mode 1)
+  :config
+  (async-bytecomp-package-mode 1)
+  (add-to-list 'display-buffer-alist '("*Async Shell Command*" display-buffer-no-window (nil))))
 
 ;; GCMH
 (use-package gcmh
-	     :straight t
-	     :init
-	     (setq gcmh-idle-delay 15
-		   gcmh-high-cons-threshold (* 16 1024 1024))
-	     :config (gcmh-mode))
+  :straight t
+  :init
+  (setq gcmh-idle-delay 15
+		gcmh-high-cons-threshold (* 16 1024 1024))
+  :config (gcmh-mode))
 
 ;; Modus-themes
 (use-package emacs
@@ -263,79 +262,79 @@
 
 ;; Diminish
 (use-package diminish
-	     :straight t
-	     :init
-	     (diminish 'auto-revert-mode "")
-	     (diminish 'abbrev-mode "")
-	     (diminish 'subword-mode)
-	     (diminish 'visual-line-mode)
-	     (diminish 'outline-mode)
-	     (diminish 'gcmh-mode)
-	     :config
-	     (eval-after-load "eldoc" '(diminish 'eldoc-mode))
-	     (eval-after-load "c-mode" '(diminish 'c-mode))
-	     (eval-after-load "c++-mode" '(diminish 'c++-mode))
-	     (eval-after-load "which-key" '(diminish 'which-key-mode))
-	     (eval-after-load "org" '(diminish 'org-indent-mode))
-	     (eval-after-load "outline" '(diminish 'outline-minor-mode))
-	     (eval-after-load "dired" '(diminish 'dired-async-mode))
-	     (eval-after-load "dired" '(diminish 'dired-hide-dotfiles-mode))
-	     (eval-after-load "dired" '(diminish 'all-the-icons-dired-mode))
-	     (eval-after-load "magit" '(diminish 'auto-fill-mode ""))
-	     (eval-after-load "magit" '(diminish 'with-editor-mode ""))
-	     (eval-after-load "auto-revert-mode" '(diminish 'auto-revert-mode "")))
+  :straight t
+  :init
+  (diminish 'auto-revert-mode "")
+  (diminish 'abbrev-mode "")
+  (diminish 'subword-mode)
+  (diminish 'visual-line-mode)
+  (diminish 'outline-mode)
+  (diminish 'gcmh-mode)
+  :config
+  (eval-after-load "eldoc" '(diminish 'eldoc-mode))
+  (eval-after-load "c-mode" '(diminish 'c-mode))
+  (eval-after-load "c++-mode" '(diminish 'c++-mode))
+  (eval-after-load "which-key" '(diminish 'which-key-mode))
+  (eval-after-load "org" '(diminish 'org-indent-mode))
+  (eval-after-load "outline" '(diminish 'outline-minor-mode))
+  (eval-after-load "dired" '(diminish 'dired-async-mode))
+  (eval-after-load "dired" '(diminish 'dired-hide-dotfiles-mode))
+  (eval-after-load "dired" '(diminish 'all-the-icons-dired-mode))
+  (eval-after-load "magit" '(diminish 'auto-fill-mode ""))
+  (eval-after-load "magit" '(diminish 'with-editor-mode ""))
+  (eval-after-load "auto-revert-mode" '(diminish 'auto-revert-mode "")))
 
 ;; Golden-ratio
 (use-package golden-ratio)
 
 ;; Rainbow-mode
 (use-package rainbow-mode
-	     :straight t
-	     :diminish rainbow-mode
-	     :hook prog-mode)
+  :straight t
+  :diminish rainbow-mode
+  :hook prog-mode)
 
 ;; Rainbow-delimiters
 (use-package rainbow-delimiters
-	     :straight t
-	     :hook (prog-mode . rainbow-delimiters-mode))
+  :straight t
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; org-auto-tangle
 (use-package org-auto-tangle
-	     :straight t
-	     :defer t
-	     :diminish org-auto-tangle-mode
-	     :hook (org-mode . org-auto-tangle-mode))
+  :straight t
+  :defer t
+  :diminish org-auto-tangle-mode
+  :hook (org-mode . org-auto-tangle-mode))
 
 ;; so-long
 (use-package so-long
-	     :defer t
-	     :straight t
-	     :bind
-	     (:map so-long-mode-map
-		   ("C-s" . isearch-forward)
-		   ("C-r" . isearch-backward))
-	     :config (global-so-long-mode 1))
+  :defer t
+  :straight t
+  :bind
+  (:map so-long-mode-map
+		("C-s" . isearch-forward)
+		("C-r" . isearch-backward))
+  :config (global-so-long-mode 1))
 
 ;; yasnippet
 (use-package yasnippet
-	     :straight t
-	     :diminish yas-minor-mode
-	     :hook
-	     ((cc-mode c-lang-common cmake-mode c++-mode c-mode
-		       emacs-lisp-mode git-commit-mode fundamental-mode
-		       makefile-mode makefile-automake-mode org-mode prog-mode
-		       python-mode text-mode) . yas-minor-mode)
-	     :config
-	     (yas-reload-all))
+  :straight t
+  :diminish yas-minor-mode
+  :hook
+  ((cc-mode c-lang-common cmake-mode c++-mode c-mode
+		    emacs-lisp-mode git-commit-mode fundamental-mode
+		    makefile-mode makefile-automake-mode org-mode prog-mode
+		    python-mode text-mode) . yas-minor-mode)
+  :config
+  (yas-reload-all))
 
 (use-package yasnippet-snippets
-	     :after yasnippet
-	     :straight t)
+  :after yasnippet
+  :straight t)
 
 (use-package consult-yasnippet
-	     :straight t
-	     :after (consult yasnippet)
-	     :bind ("C-c y" . consult-yasnippet))
+  :straight t
+  :after (consult yasnippet)
+  :bind ("C-c y" . consult-yasnippet))
 
 ;; dashboard
 (use-package dashboard
@@ -379,191 +378,185 @@
 
 ;; flycheck
 (use-package flycheck
-	     :straight t
-	     :hook (prog-mode . flycheck-mode))
+  :straight t
+  :hook (prog-mode . flycheck-mode))
 
 ;; htmlize
 (use-package htmlize
-	     :straight t)
+  :straight t)
 
 ;; magit
 (use-package magit
-	     :straight t)
+  :straight t)
 
 ;; which-key
 (use-package which-key
-	     :straight t
-	     :init
-	     (which-key-mode)
-	     :config
-	     (setq which-key-idle-dely 0.3))
+  :straight t
+  :init
+  (which-key-mode)
+  :config
+  (setq which-key-idle-dely 0.3))
 
 ;; switch-window
 (use-package switch-window
-	     :straight t
-	     :config
-	     (setq switch-window-input-style 'minibuffer)
-	     (setq switch-window-increase 4)
-	     (setq switch-window-threshold 2)
-	     (setq switch-window-shortcut-style 'qwerty)
-	     (setq switch-window-qwerty-shortcuts
-		   '("a" "s" "d" "f" "j" "k" "l"))
-	     :bind
-	     ("C-x o" . switch-window))
+  :straight t
+  :config
+  (setq switch-window-input-style 'minibuffer)
+  (setq switch-window-increase 4)
+  (setq switch-window-threshold 2)
+  (setq switch-window-shortcut-style 'qwerty)
+  (setq switch-window-qwerty-shortcuts
+		'("a" "s" "d" "f" "j" "k" "l"))
+  :bind
+  ("C-x o" . switch-window))
 
 ;; dabbrev
 (use-package dabbrev
-	     :straight t
-	     :bind (("M-/" . dabbrev-completion)
-		    ("C-M-/" . dabbrev-expand)))
+  :straight t
+  :bind (("M-/" . dabbrev-completion)
+		 ("C-M-/" . dabbrev-expand)))
 
 ;; Corfu
 (use-package corfu
-	     :straight t
-	     :demand t
-	     :bind (:map corfu-map
-			 ("<escape>". corfu-quit)
-			 ("<return>" . corfu-insert)
-			 ("C-h" . corfu-show-documentation)
-			 ("M-l" . 'corfu-show-location)
-			 ("RET" . nil)
-			 ("TAB" . corfu-next)
-			 ([tab] . corfu-next)
-			 ("S-TAB" . corfu-previous)
-			 ([backtab] . corfu-previous))
-	     :custom
-	     (corfu-auto t)
-	     (corfu-auto-prefix 3)
-	     (corfu-auto-delay 0)
-	     (corfu-echo-documentation 0)
-	     (corfu-preview-current nil)
-	     (corfu-quit-no-match 'separator)
-	     (corfu-separator ?\s)
-	     :init (global-corfu-mode)
-	     :config
-	     (defun contrib/corfu-enable-always-in-minibuffer ()
-	       (unless (bound-and-true-p vertico--input)
-		 (corfu-mode 1)))
-	     (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
+  :straight t
+  :demand t
+  :bind (:map corfu-map
+			  ("<escape>". corfu-quit)
+			  ("<return>" . corfu-insert)
+			  ("C-h" . corfu-show-documentation)
+			  ("M-l" . 'corfu-show-location)
+			  ("RET" . nil)
+			  ("TAB" . corfu-next)
+			  ([tab] . corfu-next)
+			  ("S-TAB" . corfu-previous)
+			  ([backtab] . corfu-previous))
+  :custom
+  (corfu-auto t)
+  (corfu-auto-prefix 3)
+  (corfu-auto-delay 0)
+  (corfu-echo-documentation 0)
+  (corfu-preview-current nil)
+  (corfu-quit-no-match 'separator)
+  (corfu-separator ?\s)
+  :init (global-corfu-mode)
+  :config
+  (defun contrib/corfu-enable-always-in-minibuffer ()
+	(unless (bound-and-true-p vertico--input)
+	  (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'contrib/corfu-enable-always-in-minibuffer 1))
 
 ;; cape
 (use-package cape
-	     :straight t
-	     :bind (("C-c p p" . completion-at-point)
-		    ("C-c p d" . cape-dabbrev)
-		    ("C-c p f" . cape-file)
-		    ("C-c p s" . cape-symbol)
-		    ("C-c p i" . cape-ispell))
-	     :config
-	     (setq cape-dabbrev-min-length 3)
-	     (dolist (backend '( cape-symbol cape-keyword cape-file cape-dabbrev))
-	       (add-to-list 'completion-at-point-functions backend)))
+  :straight t
+  :bind (("C-c p p" . completion-at-point)
+		 ("C-c p d" . cape-dabbrev)
+		 ("C-c p f" . cape-file)
+		 ("C-c p s" . cape-symbol)
+		 ("C-c p i" . cape-ispell))
+  :config
+  (setq cape-dabbrev-min-length 3)
+  (dolist (backend '( cape-symbol cape-keyword cape-file cape-dabbrev))
+	(add-to-list 'completion-at-point-functions backend)))
 
 ;; vertico
 (use-package vertico
-	     :straight (:files (:defaults "extensions/*"))
-	     :bind (:map vertico-map
-			 ("C-j" . vertico-next)
-			 ("C-k" . vertico-previous)
-			 ("M-j" . vertico-next)
-			 ("M-k" . vertico-previous)
-			 ("C-f" . vertico-exit)
-			 :map minibuffer-local-map
-			 ("M-h" . backward-kill-word))
-	     :custom
-	     (vertico-cycle t)
-	     (vertico-resize t)
-	     :init
-	     (vertico-mode)
-	     :config
-	     (vertico-mouse-mode))
+  :straight (:files (:defaults "extensions/*"))
+  :bind (:map vertico-map
+			  ("C-j" . vertico-next)
+			  ("C-k" . vertico-previous)
+			  ("M-j" . vertico-next)
+			  ("M-k" . vertico-previous)
+			  ("C-f" . vertico-exit)
+			  :map minibuffer-local-map
+			  ("M-h" . backward-kill-word))
+  :custom
+  (vertico-cycle t)
+  (vertico-resize t)
+  :init
+  (vertico-mode)
+  :config
+  (vertico-mouse-mode))
 
 (use-package vertico-directory
-	     :straight nil
-	     :load-path "straight/repos/vertico/extensions"
-	     :after vertico
-	     :ensure nil
-	     :bind (:map vertico-map
-			 ("RET" . vertico-directory-enter)
-			 ("DEL" . vertico-directory-delete-char)
-			 ("M-DEL" . vertico-directory-delete-word)))
+  :straight nil
+  :load-path "straight/repos/vertico/extensions"
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+			  ("RET" . vertico-directory-enter)
+			  ("DEL" . vertico-directory-delete-char)
+			  ("M-DEL" . vertico-directory-delete-word)))
 
 ;; orderless
 (use-package orderless
-	     :straight t
-	     :init
-	     (setq completion-styles '(orderless basic)
-		   completion-category-defaults nil
-		   completion-category-overrides '((file (styles basic partial-completion)))))
+  :straight t
+  :init
+  (setq completion-styles '(orderless basic)
+		completion-category-defaults nil
+		completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; marginalia
 (use-package marginalia
-	     :straight t
-	     :after vertico
-	     :init
-	     (marginalia-mode))
+  :straight t
+  :after vertico
+  :init
+  (marginalia-mode))
 
 ;; Emacs adjustment to completion
 (use-package emacs
-	     :init
-	     (defun crm-indicator (args)
-	       (cons (concat "[CRM] " (car args)) (cdr args)))
-	     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  :init
+  (defun crm-indicator (args)
+	(cons (concat "[CRM] " (car args)) (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-	     (setq minibuffer-prompt-properties
-		   '(read-only t cursor-intangible t face minibuffer-prompt))
-	     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  (setq minibuffer-prompt-properties
+		'(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-	     (setq read-extended-command-predicate
-		   #'command-completion-default-include-p)
+  (setq read-extended-command-predicate
+		#'command-completion-default-include-p)
 
-	     (setq enable-recursive-minibuffers t)
-	     (setq completion-ignore-case t)
-	     (setq read-file-name-completion-ignore-case t)
+  (setq enable-recursive-minibuffers t)
+  (setq completion-ignore-case t)
+  (setq read-file-name-completion-ignore-case t)
 
-	     (setq resize-mini-windows t))
+  (setq resize-mini-windows t))
 
 ;; deadgrep
 (use-package deadgrep
-	     :straight t
-	     :commands deadgrep)
-
-;; avy
-(use-package avy
-	     :straight t
-	     :bind
-	     ("M-s" .avy-goto-char))
+  :straight t
+  :commands deadgrep)
 
 ;; deft
 (when (file-directory-p "~/org")
   (use-package deft
-	       :straight t
-	       :config
-	       (setq deft-directory org-directory
-		     deft-recursive t
-		     deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n"
-		     deft-use-filename-as-title t)
-	       :bind
-	       ("C-c n d" . deft)))
+	:straight t
+	:config
+	(setq deft-directory org-directory
+		  deft-recursive t
+		  deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n"
+		  deft-use-filename-as-title t)
+	:bind
+	("C-c n d" . deft)))
 
 ;; C/C++
 (use-package modern-cpp-font-lock
-	     :straight t)
+  :straight t)
 
 ;; CLisp
 (use-package slime
-	     :straight t
-	     :config
-	     (setq inferior-lisp-program "/usr/bin/sbcl")
-	     (setq slime-contribs '(slime-fancy slime-quicklisp)))
+  :straight t
+  :config
+  (setq inferior-lisp-program "/usr/bin/sbcl")
+  (setq slime-contribs '(slime-fancy slime-quicklisp)))
 
 ;; Python
 (use-package python-mode
-	     :straight t
-	     :config
-	     (setq python-indent-offset standard-indent)
-	     (setq python-indent-guess-indent-offset t)
-	     (setq python-indent-guess-indent-offset-verbose nil))
+  :straight t
+  :config
+  (setq python-indent-offset standard-indent)
+  (setq python-indent-guess-indent-offset t)
+  (setq python-indent-guess-indent-offset-verbose nil))
 
 ;;; Functions
 (defun xah-open-in-external-app (&optional @fname)
